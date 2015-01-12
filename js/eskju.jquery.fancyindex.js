@@ -1,30 +1,4 @@
-/*
- * jQuery fancyIndex plugin
- *
- * Copyright (c) 2014 Christian Witte
- * licensed under MIT license.
- *
- * https://github.com/eskju/eskju-jquery-fancyindex
- *
- * Version: 1.0
- * 
- * Licensed under MIT license.
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
- * and associated documentation files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
- * subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial 
- * portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
- * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-	$.fn.FancyIndex = function( options )
+	jQuery.fn.FancyIndex = function( options )
 	{
 		new FancyIndex( this, options );
 	}
@@ -34,15 +8,15 @@
 		this.init( selector, options );
 	}
 	
-	$.extend( FancyIndex.prototype,
+	jQuery.extend( FancyIndex.prototype,
 	{
 		init : function( selector, options )
 		{
-			this.selector = $( selector );
+			this.selector = jQuery( selector );
 			this.items = [];
 			this.disabled = false;
 			this.lastActivity = 0;
-			this.options = $.extend(
+			this.options = jQuery.extend(
 			{
 				hideWhenInactive: true,
 				focusInitally: true,
@@ -79,11 +53,11 @@
 		
 		setActive : function()
 		{
-			var $this = this;
-			$( "#esKju-fancyIndex" ).removeClass( "inactive" );
-			$( "#esKju-fancyIndex" ).animate( { minHeight: 0 }, parseInt( this.options.focusTimeout ), function()
+			var jQuerythis = this;
+			jQuery( "#esKju-fancyIndex" ).removeClass( "inactive" );
+			jQuery( "#esKju-fancyIndex" ).animate( { minHeight: 0 }, parseInt( this.options.focusTimeout ), function()
 			{
-				$this.hide();
+				jQuerythis.hide();
 			});
 		},
 		
@@ -91,132 +65,132 @@
 		{
 			if( this.options.hideWhenInactive )
 			{
-				$( "#esKju-fancyIndex" ).addClass( "inactive" );
+				jQuery( "#esKju-fancyIndex" ).addClass( "inactive" );
 			}
 		},
 		
 		bindSelf: function()
 		{
-			var $this = this;
+			var jQuerythis = this;
 			
-			$( "body" ).bind( "refreshFancyIndex", function( e, options )
+			jQuery( "body" ).bind( "refreshFancyIndex", function( e, options )
 			{
-				$this.options = options;
+				jQuerythis.options = options;
 			});
 		},
 		
 		bindScroll : function()
 		{
-			var $this = this;
+			var jQuerythis = this;
 			
-			$( window ).scroll( function()
+			jQuery( window ).scroll( function()
 			{
-			 	$this.updateItems();
+			 	jQuerythis.updateItems();
 			 	
-			 	if( $this.options.focusOnScroll )
+			 	if( jQuerythis.options.focusOnScroll )
 			 	{
-			 		$this.setActive();
+			 		jQuerythis.setActive();
 			 	}
 			});
 		},
 		
 		bindResize: function()
 		{
-			var $this = this;
+			var jQuerythis = this;
 			
-			$( window ).resize( function()
+			jQuery( window ).resize( function()
 			{
-			 	$this.updateItems();
+			 	jQuerythis.updateItems();
 			 	
-			 	if( $this.options.focusOnResize )
+			 	if( jQuerythis.options.focusOnResize )
 			 	{
-			 		$this.setActive();
+			 		jQuerythis.setActive();
 			 	}
 			});
 		},
 		
 		bindHover: function()
 		{
-			var $this = this;
+			var jQuerythis = this;
 			
-			$( "#esKju-fancyIndex" ).hover( function()
+			jQuery( "#esKju-fancyIndex" ).hover( function()
 			{
-			 	if( $this.options.focusOnHover )
+			 	if( jQuerythis.options.focusOnHover )
 			 	{
-			 		$this.setActive();
+			 		jQuerythis.setActive();
 			 	}
 			});
 		},
 		
 		updateItems : function()
 		{
-			var $this = this;
-			var windowTop = $( window ).scrollTop()
-			var windowHeight = $( window ).height();
+			var jQuerythis = this;
+			var windowTop = jQuery( window ).scrollTop()
+			var windowHeight = jQuery( window ).height();
 			var firstFound = false;
 			var focusedItems = parseInt( this.options.maxPrioritizedItems );
 			var lastActive = false;
 			 	
-		 	$.each( $this.items, function( key, obj )
+		 	jQuery.each( jQuerythis.items, function( key, obj )
 		 	{
-		 		$( obj.obj ).removeClass( "active" );
-		 		$( obj.obj ).removeClass( "prioritized" );
+		 		jQuery( obj.obj ).removeClass( "active" );
+		 		jQuery( obj.obj ).removeClass( "prioritized" );
 	 			
-	 			for( i = 1; i <= parseInt( $this.options.maxPrioritizedItems ); i++ )
+	 			for( i = 1; i <= parseInt( jQuerythis.options.maxPrioritizedItems ); i++ )
 	 			{
-	 				$( obj.obj ).removeClass( "priority-" + i );
+	 				jQuery( obj.obj ).removeClass( "priority-" + i );
 	 			}
 	 			
 	 			if( windowTop > parseInt( obj.offset.top ) + 50 )
 	 			{
- 					lastActive = $( obj.obj );
+ 					lastActive = jQuery( obj.obj );
 	 			}
 		 		
-		 		if( ( windowTop <= parseInt( obj.offset.top ) + 50 && windowTop + windowHeight >= parseInt( obj.offset.top ) && ( !$this.options.firstOnly || !firstFound ) ) && ( parseInt( $this.options.maxPrioritizedItems ) == 0 || focusedItems > 0 ) )
+		 		if( ( windowTop <= parseInt( obj.offset.top ) + 50 && windowTop + windowHeight >= parseInt( obj.offset.top ) && ( !jQuerythis.options.firstOnly || !firstFound ) ) && ( parseInt( jQuerythis.options.maxPrioritizedItems ) == 0 || focusedItems > 0 ) )
 		 		{
-		 			$( obj.obj ).addClass( "active" );
-		 			$( obj.obj ).addClass( "prioritized" );
-		 			$( obj.obj ).addClass( "priority-" + focusedItems );
+		 			jQuery( obj.obj ).addClass( "active" );
+		 			jQuery( obj.obj ).addClass( "prioritized" );
+		 			jQuery( obj.obj ).addClass( "priority-" + focusedItems );
 		 			firstFound = true;
 		 			focusedItems--;
 		 		}
 		 	});
 		 	
-		 	if( $this.options.forceLastActive && $( "#esKju-fancyIndex .active" ).length == 0 )
+		 	if( jQuerythis.options.forceLastActive && jQuery( "#esKju-fancyIndex .active" ).length == 0 )
 	 		{
-	 			$( lastActive ).addClass( "active" );
-	 			$( lastActive ).addClass( "prioritized" );
-	 			$( lastActive ).addClass( "priority-" + $this.options.maxPrioritizedItems );
+	 			jQuery( lastActive ).addClass( "active" );
+	 			jQuery( lastActive ).addClass( "prioritized" );
+	 			jQuery( lastActive ).addClass( "priority-" + jQuerythis.options.maxPrioritizedItems );
 	 		}
 		},
 		
 		loadHierarchy : function()
 		{
-			var $this = this;
+			var jQuerythis = this;
 			this.items = [];
 			
-			esKjuFancyIndex = $( "<ul>" ).attr( "id", "esKju-fancyIndex" );
-			$( "body" ).append( esKjuFancyIndex );
+			esKjuFancyIndex = jQuery( "<ul>" ).attr( "id", "esKju-fancyIndex" );
+			jQuery( "body" ).append( esKjuFancyIndex );
 			
-			$( this.selector.find( "h1,h2,h3,h4,h5,h6,h7" ) ).each( function( key, obj )
+			jQuery( this.selector.find( "h1,h2,h3,h4,h5,h6,h7" ) ).each( function( key, obj )
 			{
-				var tag = $( obj ).prop( "tagName" ).toLowerCase();
-				var content = $( obj ).html();
-				var offset = $( obj ).offset();
-				var item = $( "<li>" ).addClass( tag ).html( "<div>" + content + "</div>" );
+				var tag = jQuery( obj ).prop( "tagName" ).toLowerCase();
+				var content = jQuery( obj ).text();
+				var offset = jQuery( obj ).offset();
+				var item = jQuery( "<li>" ).addClass( tag ).html( "<div>" + content + "</div>" );
 				esKjuFancyIndex.append( item );
 				
-				$this.items.push({ 
+				jQuerythis.items.push({ 
 					offset: offset, 
 					obj: item 
 				}); 
 				
-				if( $this.options.scrollOnClick )
+				if( jQuerythis.options.scrollOnClick )
 				{
-					$( item ).find( "div" ).click( function( )
+					jQuery( item ).find( "div" ).click( function( )
 					{
-						offset = $( obj ).offset();
-						$( "html, body" ).animate({ scrollTop: offset.top }, parseInt( $this.options.scrollToDuration ) );
+						offset = jQuery( obj ).offset();
+						jQuery( "html, body" ).animate({ scrollTop: offset.top }, parseInt( jQuerythis.options.scrollToDuration ) );
 					});
 				}
 			});
